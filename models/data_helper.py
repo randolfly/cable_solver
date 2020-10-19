@@ -82,8 +82,6 @@ def reset_pos():
     
 
 # 运行run_number次算法
-
-
 def validate_algorithm(run_number=20):
     init_cables()
     reset_pos()
@@ -93,13 +91,20 @@ def validate_algorithm(run_number=20):
         random_collection_position(up_collection)
         length_list = get_cables_length()
         location_list = get_locations()
-
+        target_pos = A.location
+#        print(length_list)
         with open('pos_data.txt', 'a') as f:
+            # cable length
             for length in length_list[0]:
-                f.write(str(length)+',')
-            f.write(';')
+                f.write('{:.8f} '.format(length))
+            # 3 base point location
             for pos in location_list[0]:
-                f.write(str(list(pos))+',')
+                for cood_item in pos:
+                    f.write('{:.8f} '.format(cood_item))
+            # target point location
+            for target_cood_item in target_pos:
+                f.write('{:.8f} '.format(target_cood_item))
             f.write('\n')
+            f.close()
 
-validate_algorithm(10)
+validate_algorithm(390)
