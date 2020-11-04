@@ -30,6 +30,20 @@ function out_points = solve_cable(points, lengths)
     c = a5 * (a5 - 2.0 * point1(1)) + a7 * (a7 - 2.0 * point1(3)) + point1(1)^2 + point1(2)^2 + point1(3)^2 - lengths(1)^2;
     y_minus = (-b - sqrt(b^2 - 4 * a * c)) / (2.0 * a);
     y_plus = (-b + sqrt(b^2 - 4 * a * c)) / (2.0 * a);
-    out_points(1, :) = [a4 * y_plus + a5, y_plus, a6 * y_plus + a7];
-    out_points(2, :) = [a4 * y_minus + a5, y_minus, a6 * y_minus + a7];
+    
+    temp_points(1, :) = [a4 * y_plus + a5, y_plus, a6 * y_plus + a7];
+    temp_points(2, :) = [a4 * y_minus + a5, y_minus, a6 * y_minus + a7];
+
+    vector1 = (points(2,:)-points(1,:))/norm(points(2,:)-points(1,:));
+    vector2 = (points(3,:)-points(1,:))/norm(points(3,:)-points(1,:));
+    cross_vector = cross(vector1, vector2);
+    validate_vector_1 = (temp_points(1,:)-points(1,:))/norm(temp_points(1,:)-points(1,:));
+    % validate_vector_2 = (temp_points(2,:)-points(1,:))/norm(temp_points(2,:)-points(1,:));
+    dot_product_1 = dot(cross_vector, validate_vector_1);
+    % dot_product_2 = dot(cross_vector, validate_vector_2);
+    if dot_product_1>0
+        out_points = temp_points(1,:);
+    else
+        out_points = temp_points(2,:);
+    end
 end

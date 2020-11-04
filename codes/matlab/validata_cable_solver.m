@@ -21,14 +21,14 @@ disp('pre possess successfully');
 
 for index = 1:length(output_points)
     temp_point = solve_cable(squeeze(input_points(index,:,:))',lengths(index,:));
-    output_points(index,:) = temp_point(1,:);
+    output_points(index,:) = temp_point;
 end
 
 
 % 对points做后处理(转换为x,y,z格式)
 output_points = circshift(output_points, [0,1]);
 
-% 观察差值
+% 观察差�??
 delta_vec = validate_points - output_points;
 delta_value = vecnorm(delta_vec');
 
